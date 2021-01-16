@@ -1,2 +1,2 @@
-# MITASU-Smart-DSLR-Pan-and-Tilt
+# MITASU Smart DSLR Pan and Tilt Project
 Repository for the MITASU project software
