@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\nebs\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\**",
+                "B:\\mydownloads\\Arduino\\libraries\\**",
+                "C:\\Program Files (x86)\\Arduino\\libraries\\**",
+                "C:\\Users\\nebs\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.6.17\\**"
+            ],
+            "forcedInclude": [
+                "C:\\Users\\nebs\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.6.17\\cores\\arduino\\Arduino.h"
+            ],
+            "defines": [
+                "USBCON"
+            ],
+            "intelliSenseMode": "msvc-x64",
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++11"
+        }
+    ],
+    "version": 4
+}
