@@ -5,7 +5,16 @@
  *  @brief Creates a stepper motor class
  * ----------------------------------------------------------------------------------------------------------------------------------
 */
-StepperMotor::StepperMotor(uint8_t dir_pin, uint8_t step_pin, uint8_t en_pin, uint8_t endstop_pin, pinSetup_t endstop_pin_setup = NONE)
+StepperMotor::StepperMotor(){
+
+}
+
+/**
+ * ----------------------------------------------------------------------------------------------------------------------------------
+ *  @brief Creates a stepper motor class
+ * ----------------------------------------------------------------------------------------------------------------------------------
+*/
+StepperMotor::StepperMotor(uint8_t dir_pin, uint8_t step_pin, uint8_t en_pin, uint8_t en_value, uint8_t endstop_pin, pinSetup_t endstop_pin_setup = NONE)
 {
     _dir_pin = dir_pin;
     _step_pin = step_pin;
@@ -15,7 +24,39 @@ StepperMotor::StepperMotor(uint8_t dir_pin, uint8_t step_pin, uint8_t en_pin, ui
     pinMode(_dir_pin, OUTPUT);
     pinMode(_step_pin, OUTPUT);
     pinMode(_en_pin, OUTPUT);
+    
+    if((en_value!=0) || (en_value!=1))
+        en_value = 0;
 
+    digitalWrite(_en_pin, en_value);
+
+    if (endstop_pin_setup == NONE)
+        pinMode(_endstop_pin, INPUT);
+    else if (endstop_pin_setup == PULLUP_ENDSTOP)
+        pinMode(_endstop_pin, INPUT_PULLUP);
+}
+
+/**
+ * ----------------------------------------------------------------------------------------------------------------------------------
+ *  @brief Initializes stepper motor class
+ * ----------------------------------------------------------------------------------------------------------------------------------
+*/
+void StepperMotor::init(uint8_t dir_pin, uint8_t step_pin, uint8_t en_pin, uint8_t en_value, uint8_t endstop_pin, pinSetup_t endstop_pin_setup = NONE)
+{
+    _dir_pin = dir_pin;
+    _step_pin = step_pin;
+    _en_pin = en_pin;
+    _endstop_pin = endstop_pin;
+
+    pinMode(_dir_pin, OUTPUT);
+    pinMode(_step_pin, OUTPUT);
+    pinMode(_en_pin, OUTPUT);
+    
+    if((en_value!=0) || (en_value!=1))
+        en_value = 0;
+
+    digitalWrite(_en_pin, en_value);
+        
     if (endstop_pin_setup == NONE)
         pinMode(_endstop_pin, INPUT);
     else if (endstop_pin_setup == PULLUP_ENDSTOP)
@@ -44,6 +85,36 @@ void StepperMotor::disable(void)
 
 /**
  * ----------------------------------------------------------------------------------------------------------------------------------
+ *  @brief Set the Direction of the motor
+ * 
+ *  @param[in] pinVal Value of the output for the direction pin. 1 for HIGH, 0 for LOW 
+ * ----------------------------------------------------------------------------------------------------------------------------------
+ */
+void StepperMotor::setDir(uint8_t pinVal){
+    digitalWrite(_dir_pin, pinVal);
+}
+
+/**
+ * ----------------------------------------------------------------------------------------------------------------------------------
+ *  @brief Performs a step for the stepper motor considering the endstop. 
+ *         If endstop is being pressed, return. Else step.
+ *         Direction should be set before calling this.
+ *          
+ * 
+ *  @return  0 if step not taken due to reaching endstop, and
+ *           1 if step was taken
+ * ----------------------------------------------------------------------------------------------------------------------------------
+*/
+uint8_t StepperMotor::step(void){
+    if (endstop())
+        return 0;
+
+    hardStep();
+    return 1;
+}
+
+/**
+ * ----------------------------------------------------------------------------------------------------------------------------------
  *  @brief Performs a step for the stepper motor considering the endstop. 
  *         If endstop is being pressed, return. Else step.
  * 
@@ -60,6 +131,16 @@ uint8_t StepperMotor::step(uint8_t dir)
 
     hardStep(dir);
     return 1;
+}
+
+/**
+ * ----------------------------------------------------------------------------------------------------------------------------------
+ *  @brief Performs a step for the stepper motor without considering endstop
+ * ----------------------------------------------------------------------------------------------------------------------------------
+*/
+void StepperMotor::hardStep(void){
+    digitalWrite(_step_pin, HIGH);
+    digitalWrite(_step_pin, LOW);
 }
 
 /**
