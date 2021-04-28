@@ -1,5 +1,6 @@
 {
-    "board": "arduino:avr:nano",
-    "configuration": "cpu=atmega328",
-    "programmer": "AVR ISP"
+    "board": "arduino:avr:uno",
+    "programmer": "AVR ISP",
+    "sketch": "test_accel_stepper_optim2\\test_accel_stepper_optim2.ino",
+    "port": "COM3"
 }
